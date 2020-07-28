@@ -1,4 +1,4 @@
-# Seattle Beds-Security-Reference-Monitor
+# Seattle TestBeds-Security-Reference-Monitor
 Seattle Reference Monitor implementation and its attack cases and improvements
 
 
