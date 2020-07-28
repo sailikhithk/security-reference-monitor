@@ -1,0 +1,35 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 7 - Check if New File is created by setting ABOpenfile Create value as False
+
+################################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(4)
+createthread(terminate_program)
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+try:
+  myfile=ABopenfile("testfile.txt",False)  #AB file Exists
+except FileNotFoundError:
+  pass
+else:
+  log("ERROR ATTACK - 7 | File Exists! \n")
+finally:
+  exitall()
+
+#Close the file
+myfile.close()

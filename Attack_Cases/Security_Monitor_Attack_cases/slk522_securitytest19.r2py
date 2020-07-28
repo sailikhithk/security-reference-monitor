@@ -1,0 +1,61 @@
+################################################################################################
+# Submission by slk
+# Attack Scenario 4 - Check if valid data is appended
+
+################################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(10)
+createthread(terminate_program)
+
+# New File Operation
+# WRITE Valid Data Operation
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile.writeat("StestE",0)
+
+#Close the file
+myfile.close()
+
+# APPEND Valid Data Operation
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile.writeat("securityE",6)
+
+#Close the file
+myfile.close()
+
+# READ OPERATION
+# Reopen file again to read
+myfile=ABopenfile("testfile.txt",True)
+
+# Read the file to check the contents
+try:
+ assert('StestEsecurityE' == myfile.readat(None,0))
+ #Close the file
+ myfile.close()
+except:
+ #Close the file
+ myfile.close()
+ log("ERROR ATTACK - 4 | File Update is unsuccessful! \n")
+finally:
+  exitall()

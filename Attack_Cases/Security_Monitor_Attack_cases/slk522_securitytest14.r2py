@@ -1,0 +1,41 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 14 - Multi-threading - Altering the file
+
+################################################################################################
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(4)
+createthread(terminate_program)
+
+#REMOVE Operation
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# New File Operation
+myfile=ABopenfile("testfile.txt", True)
+
+def threadone():
+  #WRITE Operation
+  myfile.writeat("StestE",0)
+
+def threadtwo():
+  #WRITE Operation
+  myfile.writeat("StestEsecurityE",0)
+
+createthread(threadone)
+createthread(threadtwo)
+myfile.close()
+
+myfile=ABopenfile("testfile.txt", True)
+if myfile.readat(None,0) == "StestEsecurityE":
+  log("ERROR ATTACK - 14 | File Altered!\n")
+myfile.close()

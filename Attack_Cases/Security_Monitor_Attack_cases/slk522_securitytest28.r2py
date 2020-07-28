@@ -1,0 +1,40 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 13 - Multi-threading where one thread creates while other removes
+
+################################################################################################
+
+#REMOVE Operation
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+def threadone():
+  # New File Operation
+  myfile=ABopenfile("testfile.txt", True)
+  #READ Operation
+  if myfile.readat(2,0) == "SE":
+    try:
+      #WRITE Operation
+      myfile.writeat("Stest1E",0)
+      sleep(3)
+      myfile.close()
+    except RepyArgumentError:
+      pass
+    finally:
+      exitall()
+
+def threadtwo():
+  try:
+    #REMOVE Operation
+    if "testfile.txt.a" in listfiles():
+      removefile("testfile.txt.a")
+    if "testfile.txt.b" in listfiles():
+      removefile("testfile.txt.b")
+    log("ERROR ATTACK - 13 | Removed File\n")
+  finally:
+    exitall()
+
+createthread(threadone)
+createthread(threadtwo)

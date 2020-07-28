@@ -1,0 +1,61 @@
+################################################################################
+# Submission by slk522
+# Attack Scenario 15 - Multiple File Handling - WRITE Operation
+
+################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(10)
+createthread(terminate_program)
+
+# New File Operation
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+if "example.txt.a" in listfiles():
+  removefile("example.txt.a")
+if "example.txt.b" in listfiles():
+  removefile("example.txt.b")
+
+# Open File Function Call
+myfile1=ABopenfile("testfile.txt",True)  #Create an AB file
+myfile2=ABopenfile("example.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile1.writeat("Stest1E",0)
+myfile2.writeat("Stest2E",0)
+
+#Close the file
+myfile1.close()
+myfile2.close()
+
+# Open File Function Call
+myfile1=ABopenfile("testfile.txt",True)  #Create an AB file
+myfile2=ABopenfile("example.txt",True)  #Create an AB file
+
+# Read the file to check the contents
+try:
+ assert('Stest1E' == myfile1.readat(7,0))
+ assert('Stest2E' == myfile2.readat(7,0))
+ #Close the file
+ myfile1.close()
+ myfile2.close()
+except:
+ #Close the file
+ myfile1.close()
+ myfile2.close()
+ log("ERROR ATTACK - 15 | Multiple File Handling unsuccessful! \n")
+finally:
+ #Exit operation is successful/unsuccessful
+ exitall()

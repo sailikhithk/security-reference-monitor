@@ -1,0 +1,31 @@
+################################################################################
+# Submission by slk522
+# Attack Scenario 13 - Check if previous Backup File is Stored in the System
+# 15 Security Layers are Secure
+# 6 failed due to Fatal Error
+# 2 logged in ERROR - ATTACK 16 | Backup File Not Stored!
+# 7 failed due to Uncaught Repy Exceptions
+################################################################################
+
+# New File Operation
+# Clean up of existing file
+for file in listfiles():
+    if "testfile" in file:
+        removefile(file)
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+myfile.writeat("STest1E",0)
+
+myfile.close()
+
+file_found = 0
+for file in listfiles():
+    if "testfile" in file:
+        checkfile=openfile(file,True)
+        if checkfile.readat(2,0) == "SE":
+          file_found = 1
+
+if file_found == 0:
+    log("ERROR - ATTACK 13 | Backup File Not Stored! \n")

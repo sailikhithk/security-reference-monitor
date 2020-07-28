@@ -1,0 +1,51 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 3 - Check if invalid data is discarded and valid data is retained
+
+################################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(10)
+createthread(terminate_program)
+
+
+# New File Operation
+# WRITE Invalid Data Operation
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write invalid data to the file
+myfile.writeat("Test",0)
+
+#Close the file
+myfile.close()
+
+# READ OPERATION
+# Reopen file again to read
+myfile=ABopenfile("testfile.txt",True)
+
+# Read the file to check the contents
+try:
+ assert('SE' == myfile.readat(2,0))
+ #Close the file
+ myfile.close()
+except:
+ #Close the file
+ myfile.close()
+ log("ERROR ATTACK - 3 | Valid Data File is not retained \n")
+finally:
+  exitall()

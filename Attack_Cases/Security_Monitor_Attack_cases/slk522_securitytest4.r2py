@@ -1,0 +1,53 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 4 - Check if valid data is appended
+# 3 Security Layers are Secure
+# 6 logged ERROR ATTACK - 4 | File Update is unsuccessful!
+# 19 failed due to Uncaught Repy Exception
+# 2 failed due to Fatal Error
+################################################################################################
+
+# New File Operation
+# WRITE Valid Data Operation
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile.writeat("StestE",0)
+
+#Close the file
+myfile.close()
+
+# APPEND Valid Data Operation
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile.writeat("securityE",6)
+
+#Close the file
+myfile.close()
+
+# READ OPERATION
+# Reopen file again to read
+myfile=ABopenfile("testfile.txt",True)
+
+# Read the file to check the contents
+try:
+ assert('StestEsecurityE' == myfile.readat(None,0))
+ #Close the file
+ myfile.close()
+except:
+ #Close the file
+ myfile.close()
+ log("ERROR ATTACK - 4 | File Update is unsuccessful! \n")
+finally:
+  exitall()

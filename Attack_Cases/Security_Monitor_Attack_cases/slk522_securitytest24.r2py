@@ -1,0 +1,43 @@
+################################################################################
+# Submission by slk522
+# Attack Scenario 9 - Read with Higher Value of Bytes
+
+################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(10)
+createthread(terminate_program)
+
+# New File Open Operation
+
+# Remove existing Files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+myfile.writeat("StestE",0)
+
+# Read data from the file
+try:
+  myfile.readat(-2,0)
+except RepyArgumentError:
+  pass
+else:
+  log("ERROR ATTACK - 9 | Allowed to read file with negative byte value!\n")
+finally:
+  exitall()
+
+#Close the file
+myfile.close()

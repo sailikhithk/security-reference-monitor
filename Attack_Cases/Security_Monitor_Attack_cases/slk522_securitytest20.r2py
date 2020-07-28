@@ -1,0 +1,38 @@
+################################################################################################
+# Submission by slk52
+# Attack Scenario 5 - Writing directly into Higher Offset Value
+
+################################################################################################
+
+# Created a thread to bypass Infinite Loop/Triggered Race Conditions Programs
+def close_after(t):
+  def sleep_for():
+    # after sleeping t sec, terminate the program
+    sleep(t)
+    log("Operation Unsuccessful as Program Triggered Race Condition / Infinite Loop\n")
+    exitall()
+  return sleep_for
+terminate_program = close_after(4)
+createthread(terminate_program)
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)  #Create an AB file
+
+# Write valid data to the file
+try:
+  myfile.writeat("StestE",100)
+except SeekPastEndOfFileError:
+  pass
+else:
+  log("ERROR ATTACK 5 | Offset greater than filesize or EOF not handled!\n")
+finally:
+  exitall()
+
+#Close the file
+myfile.close()

@@ -1,0 +1,26 @@
+################################################################################################
+# Submission by slk522
+# Attack Scenario 12 - Check if Existing File can be opened with create parameter as True
+################################################################################################
+
+# Clean up of existing file
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+
+# Open File Function Call
+myfile=ABopenfile("testfile.txt",True)
+
+#Close the file
+myfile.close()
+
+# File should exist, since removed function not called
+# Open File Function Call, again
+try:
+  myfile=ABopenfile("testfile.txt",True)
+except:
+  log("ERROR ATTACK - 12 | Not Allowing to open existing file! \n")
+
+#Close the file
+myfile.close()
